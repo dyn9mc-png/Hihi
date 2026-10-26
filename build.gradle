@@ -1,0 +1,36 @@
+plugins {
+    id 'fabric-loom' version '1.14-SNAPSHOT'
+}
+
+group = 'net.example'
+version = '1.0.0'
+
+base {
+    archivesName = 'anubis-schematic-addon'
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.fabricmc.net/' }
+}
+
+dependencies {
+    minecraft 'com.mojang:minecraft:1.21.11'
+    mappings 'net.fabricmc:yarn:1.21.11+build.6:v2'
+    modImplementation 'net.fabricmc:fabric-loader:0.18.1'
+    modImplementation 'net.fabricmc.fabric-api:fabric-api:0.141.3+1.21.11'
+    // Put the exact Anubis client JAR in libs/anubisplus.jar before building.
+    compileOnly files('libs/anubisplus.jar')
+}
+
+processResources {
+    inputs.property 'version', project.version
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version
+    }
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}
